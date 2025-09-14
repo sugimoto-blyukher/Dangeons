@@ -1,0 +1,21 @@
+
+{
+    "version": "2.0.0",
+    "presentation": {
+      "reveal": "always",
+      "panel": "new"
+    },
+    "tasks": [
+      {
+        "label": "Run Processing Sketch",
+        "command": "C:/Users/dotdo/OneDrive/ドキュメント/processing-4.3.4/processing-java.exe",
+        "type": "process",
+        "args": ["--force", "--sketch=${fileDirname}", "--run"],
+        "problemMatcher": [],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+}
