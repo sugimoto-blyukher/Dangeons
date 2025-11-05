@@ -1,0 +1,37 @@
+name: CI (Processing)
+on: [push, pull_request]
+
+jobs:
+  build-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'   # Processing 4系と相性良し
+
+      - name: Install Xvfb (headless GUI)
+        run: sudo apt-get update && sudo apt-get install -y xvfb libxi6 libglu1-mesa
+
+      - name: Download Processing
+        run: |
+          VER=4.4.10
+          curl -L -o processing.tgz https://download.processing.org/processing-${VER}-linux-x64.tgz
+          tar -xzf processing.tgz
+          echo "$PWD/processing-${VER}" >> $GITHUB_PATH
+
+      - name: Build sketch
+        run: xvfb-run processing-java --sketch=$GITHUB_WORKSPACE/sketches/MySketch --build
+
+      - name: Run sketch headless
+        run: xvfb-run processing-java --sketch=$GITHUB_WORKSPACE/sketches/MySketch --run
+
+      - name: Upload outputs (frames, logs, etc.)
+        uses: actions/upload-artifact@v4
+        with:
+          name: outputs
+          path: sketches/MySketch/output/**
+
