@@ -5,8 +5,6 @@ import java.util.*;
 final int COLS = 80;
 final int ROWS = 45;
 final int TILE = 16;
-int scene = 0;
-boolean sceneInitialize = false;
 
 Tile[][] map = new Tile[COLS][ROWS];
 ArrayList<Room> rooms = new ArrayList<>();
@@ -26,26 +24,12 @@ void setup() {
 }
 
 void draw() {
-  switch (scene) {
-    case 0:
-      if(!sceneInitialize) {
-        initTitle();
-        sceneInitialize = true;
-      }
-      drawTitle();
-      break;
-    case 1:
-      if(!sceneInitialize) {
-        initGame();
-        sceneInitialize = true;
-      }
-      drawGame();
-      break;
-    default :
-      break;	
-  }
+  background(10);
+  drawMap();
+  drawPlayer();
+  fill(255);
+  text("Seed: " + seed + "  [R]=regenerate  [S]=new seed", 8, 16);
 }
-
 
 void keyPressed() {
   int dx = 0, dy = 0;
@@ -68,36 +52,7 @@ void keyPressed() {
   } else if (key == 'S' || key == 's') {
     seed = System.currentTimeMillis();
     generate(seed);
-  } 
-}
-
-void changeScene(int next) {
-  scene = next;
-  sceneInitialize = false; //次のシーンに再初期化する
-}
-
-void initTitle() {
-  println("タイトル初期化");
-}
-
-void initGame() {
-  println("ゲーム初期化");
-}
-
-void drawTitle() {
-  background(255);
-  text("Ryunen Bizzare Dangeons, Rescue Squad of Tani", 100, 100);
-  if (keyPressed && key == 'n' || keyPressed && key == 'N') {
-    changeScene(1);
   }
-}
-
-void drawGame() {
-    background(10);
-    drawMap();
-    drawPlayer();
-    fill(255);
-    text("Seed: " + seed + "  [R]=regenerate  [S]=new seed", 8, 16);
 }
 
 // ====== 生成 ======
