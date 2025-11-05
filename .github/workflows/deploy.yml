@@ -18,11 +18,12 @@ jobs:
 
       - name: Download Processing
         run: |
-          VER=4.4.10
-          sudo snap install processing --classic
-          #tar -xzf processing.tgz
-          #echo "$PWD/processing-${VER}" >> $GITHUB_PATH
-          echo "/snap/processing/4.4.10/processing-java" >> $GITHUB_PATH
+          #VER=4.4.10
+          #sudo snap install processing --classic
+          curl -L -o processing.tar.gz https://github.com/processing/processing4/archive/refs/tags/processing-1310-4.4.10.tar.gz
+          tar -xzvf processing.tar.gz
+          echo "$PWD/processing-4.4.10" >> $GITHUB_PATH
+          #echo "/snap/processing/4.4.10/processing-java" >> $GITHUB_PATH
 
       - name: Build sketch
         run: xvfb-run processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --build
