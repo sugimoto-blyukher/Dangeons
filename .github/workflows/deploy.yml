@@ -18,16 +18,16 @@ jobs:
 
       - name: Download Processing
         run: |
-          VER=4.4
+          VER=4.4.10
           sudo snap install processing --classic
           #tar -xzf processing.tgz
           echo "$PWD/processing-${VER}" >> $GITHUB_PATH
 
       - name: Build sketch
-        run: xvfb-run processing-java --sketch=$GITHUB_WORKSPACE/Dangeons --build
+        run: xvfb-run processing-java --sketch=/Dangeons --build
 
       - name: Run sketch headless
-        run: xvfb-run processing-java --sketch=$GITHUB_WORKSPACE/Dangeons --run
+        run: xvfb-run processing-java --sketch=/Dangeons --run
 
       - name: Upload outputs (frames, logs, etc.)
         uses: actions/upload-artifact@v4
