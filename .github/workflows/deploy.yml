@@ -27,7 +27,7 @@ jobs:
 
       - name: Build sketch
         run: ls /$GITHUB_WORKSPACE/ 
-        run: xvfb-run processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --build
+                  xvfb-run processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --build
 
       - name: Run sketch headless
         run: xvfb-run processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --run
