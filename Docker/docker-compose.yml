@@ -1,0 +1,9 @@
+services:
+  processing_app:
+    build:
+      context: .
+      dockrfile: Dockerfile
+  volumes:
+    
+
+

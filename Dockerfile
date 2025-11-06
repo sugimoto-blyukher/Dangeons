@@ -1,4 +1,4 @@
-from ubuntu:20.04
+from ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 run apt-get update \
@@ -21,13 +21,14 @@ run apt-get -y install \
       fonts-ipafont-gothic \
       fonts-ipafont-mincho \
       vim \
-      gvfs-bin \
+      libglib2.0-bin \
       xdg-utils \
+      curl \
   && apt-get -y install fonts-takao \
   && cd /opt \
-  && wget http://download.processing.org/processing-4.3.3-linux64.tgz \
-  && tar xvfz processing-3.5.4-linux64.tgz \
-  && /opt/processing-3.5.4/install.sh \
+  && curl -L -o processing.tgz https://github.com/processing/processing4/releases/download/processing-1297-4.3.4/processing-4.3.4-linux-x64.tgz \
+  && tar xvfz processing.tgz \
+  && /opt/processing-4.3.4/install.sh \
   && apt-get -y remove --purge light-locker blueman \
   && apt-get -y install gnome-screensaver \
   && im-config -n fcitx \
@@ -60,7 +61,8 @@ run apt-get -y install \
   && chmod +x /home/ubuntu/.vnc/xstartup \
   && mkdir -p /home/ubuntu/data \
   && chown -R ubuntu:ubuntu /home/ubuntu/data
-
+RUN mkdir ./Dangeons
+COPY Dangeons/ ./home/ubuntu/Dangeons
 expose 5901
 volume ["/home/ubuntu/data"]
 cmd /usr/bin/vncserver :1 -localhost no -geometry 1152x864 -alwaysshared -fg
