@@ -17,9 +17,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y xvfb libxi6 libglu1-mesa
 
       - name: Download Processing
-        run: |
-          #VER=4.4.10
-          #sudo snap install processing --classic
+        run: 
           curl -L -o processing.tar.gz https://github.com/processing/processing4/archive/refs/tags/processing-4.3.4.tar.gz
           tar -zcfv processing.tar.gz
           echo "$PWD/processing-4.3.4" >> $GITHUB_PATH
