@@ -11,7 +11,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'   # Processing 4系と相性良し
+          java-version: '17'   
 
       - name: Install Xvfb (headless GUI)
         run: sudo apt-get update && sudo apt-get install -y xvfb libxi6 libglu1-mesa
@@ -24,14 +24,17 @@ jobs:
 
       - name: Build sketch
         run: |
-          xvfb-run processing-java --sketch=Dangeons  --build
+          processing-java --sketch=Dangeons  --output=/Dangeons/build --build
 
       - name: Run sketch headless
-        run: xvfb-run processing-java --sketch=Dangeons --run
+        run: xvfb-run processing-java -a --sketch=Dangeons --output=Dangeons/build --run
 
       - name: Upload outputs (frames, logs, etc.)
         uses: actions/upload-artifact@v4
         with:
           name: outputs
-          path: Dangeons/output
+          path: |
+            Dangeons/output/**
+            Dangeons/build/**
+          if-no-files-found: warn
 
