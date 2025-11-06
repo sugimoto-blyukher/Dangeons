@@ -10,7 +10,7 @@
         "label": "Run Processing Sketch",
         "command": "C:/Users/dotdo/OneDrive/ドキュメント/processing-4.3.4/processing-java.exe",
         "type": "process",
-        "args": ["--force", "--sketch=${fileDirname}", "--run"],
+        "args": ["--force", "--sketch=${fileDirname}/Dangeons", "--run"],
         "problemMatcher": [],
         "group": {
           "kind": "build",
