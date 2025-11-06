@@ -26,8 +26,9 @@ jobs:
           #echo "/snap/processing/4.3.4/processing-java" >> $GITHUB_PATH
 
       - name: Build sketch
-        run: ls /$GITHUB_WORKSPACE/ 
-                  xvfb-run processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --build
+        run: 
+          ls PWD/processing-4.3.4
+          xvfb-run processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --build
 
       - name: Run sketch headless
         run: xvfb-run processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --run
