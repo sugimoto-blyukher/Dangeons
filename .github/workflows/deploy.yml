@@ -25,7 +25,7 @@ jobs:
 
       - name: Build sketch
         run: |
-          ls
+          ls /processing-4.3.4/
           #xvfb-run processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --build
 
       - name: Run sketch headless
