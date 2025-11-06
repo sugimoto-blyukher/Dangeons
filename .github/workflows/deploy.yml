@@ -21,15 +21,13 @@ jobs:
           curl -L -o processing.tgz https://github.com/processing/processing4/releases/download/processing-1297-4.3.4/processing-4.3.4-linux-x64.tgz
           tar -xzvf processing.tgz
           echo "$PWD/processing-4.3.4" >> $GITHUB_PATH
-          #echo "/snap/processing/4.3.4/processing-java" >> $GITHUB_PATH
 
       - name: Build sketch
         run: |
-          ls /processing-4.3.4/
-          #xvfb-run processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --build
+          xvfb-run /processing-4.3.4/processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --build
 
       - name: Run sketch headless
-        run: xvfb-run processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --run
+        run: xvfb-run /processing-4.3.4/processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --run
 
       - name: Upload outputs (frames, logs, etc.)
         uses: actions/upload-artifact@v4
