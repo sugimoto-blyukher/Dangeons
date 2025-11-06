@@ -24,7 +24,7 @@ jobs:
 
       - name: Build sketch
         run: |
-          processing-java --sketch=Dangeons  --output=/Dangeons/build --build
+          processing-java --sketch=Dangeons  --output=Dangeons/build --build
 
       - name: Run sketch headless
         run: xvfb-run processing-java -a --sketch=Dangeons --output=Dangeons/build --run
