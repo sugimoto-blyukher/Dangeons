@@ -24,14 +24,14 @@ jobs:
 
       - name: Build sketch
         run: |
-          xvfb-run processing-java --sketch=../Dangeons  --build
+          xvfb-run processing-java --sketch=Dangeons  --build
 
       - name: Run sketch headless
-        run: xvfb-run processing-java --sketch=../Dangeons --run
+        run: xvfb-run processing-java --sketch=Dangeons --run
 
       - name: Upload outputs (frames, logs, etc.)
         uses: actions/upload-artifact@v4
         with:
           name: outputs
-          path: sketches/MySketch/output/**
+          path: Dangeons/output
 
