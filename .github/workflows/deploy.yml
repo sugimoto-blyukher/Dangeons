@@ -18,8 +18,8 @@ jobs:
 
       - name: Download Processing
         run: 
-          curl -L -o processing.tar.gz https://github.com/processing/processing4/archive/refs/tags/processing-4.3.4.tar.gz
-          tar xzvf processing.tar.gz
+          curl -L -o processing.tgz https://github.com/processing/processing4/releases/download/processing-1297-4.3.4/processing-4.3.4-linux-x64.tgz
+          tar -xzvf processing.tar.gz
           echo "$PWD/processing-4.3.4" >> $GITHUB_PATH
           #echo "/snap/processing/4.3.4/processing-java" >> $GITHUB_PATH
 
