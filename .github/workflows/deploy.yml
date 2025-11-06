@@ -24,10 +24,10 @@ jobs:
 
       - name: Build sketch
         run: |
-          xvfb-run /processing-4.3.4/processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --build
+          xvfb-run processing-java --sketch=/Dangeons --build
 
       - name: Run sketch headless
-        run: xvfb-run /processing-4.3.4/processing-java --sketch=/$GITHUB_WORKSPACE/Dangeons --run
+        run: xvfb-run processing-java --sketch=/Dangeons --run
 
       - name: Upload outputs (frames, logs, etc.)
         uses: actions/upload-artifact@v4
