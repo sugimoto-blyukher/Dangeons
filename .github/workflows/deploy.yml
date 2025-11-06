@@ -27,7 +27,7 @@ jobs:
           processing-java --sketch=Dangeons  --output=Dangeons/build --build
 
       - name: Run sketch headless
-        run: xvfb-run -a processing-java --sketch=Dangeons --output=Dangeons/build --run
+        run: xvfb-run -a processing-java --sketch=Dangeons --force --output=Dangeons/build --run
 
       - name: Upload outputs (frames, logs, etc.)
         uses: actions/upload-artifact@v4
