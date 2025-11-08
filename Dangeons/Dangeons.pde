@@ -5,7 +5,7 @@ import java.util.*;
 final int COLS = 80;
 final int ROWS = 45;
 final int TILE = 16;
-int scene = 0;
+int scene = 1;
 boolean sceneInitialize = false;
 
 Tile[][] map = new Tile[COLS][ROWS];
