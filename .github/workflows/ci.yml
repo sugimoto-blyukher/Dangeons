@@ -20,7 +20,7 @@ jobs:
     defaults:
       run:
         shell: bash -eo pipefail
-        working-directory: ./Dangeons   # ← これでパスの重複を排除
+        working-directory: .   # ← これでパスの重複を排除
 
     steps:
       - uses: actions/checkout@v4
