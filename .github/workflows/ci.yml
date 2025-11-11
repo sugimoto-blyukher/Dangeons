@@ -34,9 +34,9 @@ jobs:
 
       - name: Install Xvfb and libs
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            xvfb libxi6 libglu1-mesa libxrender1 libxtst6
+          apt-get update &&
+          apt-get install -y \
+            xvfb libxi6 libglu1-mesa libxrender1 libxtst6 && \
           # 画面解像度はProcessingの描画で必要になることがある
           echo 'Xvfb :99 -screen 0 1280x800x24 & disown' >> $GITHUB_STEP_SUMMARY
 
@@ -51,8 +51,8 @@ jobs:
         if: steps.cache-processing.outputs.cache-hit != 'true'
         run: |
           curl -L -o processing.tgz \
-            https://github.com/processing/processing4/releases/download/processing-1297-4.3.4/processing-4.3.4-linux-x64.tgz
-          tar -xzf processing.tgz -C "$GITHUB_WORKSPACE"
+            https://github.com/processing/processing4/releases/download/processing-1297-4.3.4/processing-4.3.4-linux-x64.tgz && \
+          tar -xzf processing.tgz -C "$GITHUB_WORKSPACE" && \
           rm -f processing.tgz
 
       - name: Add processing-java to PATH
@@ -66,8 +66,8 @@ jobs:
           DISPLAY: :99
           _JAVA_OPTIONS: -Djava.awt.headless=true
         run: |
-          Xvfb :99 -screen 0 1280x800x24 &
-          sleep 2
+          Xvfb :99 -screen 0 1280x800x24 & && \
+          sleep 2 && \
           processing-java --sketch=. --output=./build --build
 
       - name: Run sketch (headless, with timeout)
@@ -75,14 +75,14 @@ jobs:
           DISPLAY: :99
           _JAVA_OPTIONS: -Djava.awt.headless=true
         run: |
-          Xvfb :99 -screen 0 1280x800x24 &
-          sleep 2
+          Xvfb :99 -screen 0 1280x800x24 & && \
+          sleep 2 && \
           timeout 30s processing-java --sketch=. --force --output=./build --run
 
       - name: List outputs
         if: always()
         run: |
-          echo "== build ==" && ls -lah ./build || true
+          echo "== build ==" && ls -lah ./build || true && \
           echo "== output ==" && ls -lah ./output || true
 
       - name: Upload artifacts (build, output, logs)
