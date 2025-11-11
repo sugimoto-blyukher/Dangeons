@@ -50,10 +50,10 @@ jobs:
       - name: Download Processing (if cache miss)
         if: steps.cache-processing.outputs.cache-hit != 'true'
         run: |
-          curl -L -o /tmp/processing.tgz \
+          curl -L -o processing.tgz \
             https://github.com/processing/processing4/releases/download/processing-1297-4.3.4/processing-4.3.4-linux-x64.tgz
-          tar -xzf /tmp/processing.tgz -C "$GITHUB_WORKSPACE"
-          rm -f /tmp/processing.tgz
+          tar -xzf processing.tgz -C "$GITHUB_WORKSPACE"
+          rm -f processing.tgz
 
       - name: Add processing-java to PATH
         run: echo "$GITHUB_WORKSPACE/processing-4.3.4" >> "$GITHUB_PATH"
