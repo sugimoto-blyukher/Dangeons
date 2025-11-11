@@ -30,7 +30,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-          cache: gradle # 将来の依存で効く。現時点では無害
+          #cache: gradle # 将来の依存で効く。現時点では無害
 
       - name: Install Xvfb and libs
         run: |
