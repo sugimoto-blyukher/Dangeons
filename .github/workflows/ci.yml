@@ -34,7 +34,7 @@ jobs:
 
       - name: Install Xvfb and libs
         run: |
-          sudo apt-get update &&
+          sudo apt-get update && \
           sudo apt-get install -y \
             xvfb libxi6 libglu1-mesa libxrender1 libxtst6 && \
           # 画面解像度はProcessingの描画で必要になることがある
