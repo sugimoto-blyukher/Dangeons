@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash -eo pipefail
+        shell: bash -eo pipefail {0}
         working-directory: .   # ← これでパスの重複を排除
 
     steps:
@@ -34,9 +34,7 @@ jobs:
 
       - name: Install Xvfb and libs
         run: |
-          sudo apt-get update && \
-          sudo apt-get install -y \
-            xvfb libxi6 libglu1-mesa libxrender1 libxtst6 && \
+          sudo apt-get update && sudo apt-get install -y xvfb libxi6 libglu1-mesa libxrender1 libxtst6 && \
           # 画面解像度はProcessingの描画で必要になることがある
           echo 'Xvfb :99 -screen 0 1280x800x24 & disown' >> $GITHUB_STEP_SUMMARY
 
