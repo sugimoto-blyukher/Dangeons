@@ -1,4 +1,101 @@
 name: CI (Processing)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: processing-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-run:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -eo pipefail
+        working-directory: ./Dangeons   # ← これでパスの重複を排除
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle # 将来の依存で効く。現時点では無害
+
+      - name: Install Xvfb and libs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            xvfb libxi6 libglu1-mesa libxrender1 libxtst6
+          # 画面解像度はProcessingの描画で必要になることがある
+          echo 'Xvfb :99 -screen 0 1280x800x24 & disown' >> $GITHUB_STEP_SUMMARY
+
+      - name: Cache Processing 4.3.4
+        id: cache-processing
+        uses: actions/cache@v4
+        with:
+          path: processing-4.3.4
+          key: processing-4.3.4-linux-x64
+
+      - name: Download Processing (if cache miss)
+        if: steps.cache-processing.outputs.cache-hit != 'true'
+        run: |
+          curl -L -o /tmp/processing.tgz \
+            https://github.com/processing/processing4/releases/download/processing-1297-4.3.4/processing-4.3.4-linux-x64.tgz
+          tar -xzf /tmp/processing.tgz -C "$GITHUB_WORKSPACE"
+          rm -f /tmp/processing.tgz
+
+      - name: Add processing-java to PATH
+        run: echo "$GITHUB_WORKSPACE/processing-4.3.4" >> "$GITHUB_PATH"
+
+      - name: Verify processing-java
+        run: processing-java --help | head -n 3
+
+      - name: Build sketch (headless)
+        env:
+          DISPLAY: :99
+          _JAVA_OPTIONS: -Djava.awt.headless=true
+        run: |
+          Xvfb :99 -screen 0 1280x800x24 &
+          sleep 2
+          processing-java --sketch=. --output=./build --build
+
+      - name: Run sketch (headless, with timeout)
+        env:
+          DISPLAY: :99
+          _JAVA_OPTIONS: -Djava.awt.headless=true
+        run: |
+          Xvfb :99 -screen 0 1280x800x24 &
+          sleep 2
+          timeout 30s processing-java --sketch=. --force --output=./build --run
+
+      - name: List outputs
+        if: always()
+        run: |
+          echo "== build ==" && ls -lah ./build || true
+          echo "== output ==" && ls -lah ./output || true
+
+      - name: Upload artifacts (build, output, logs)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: processing-artifacts
+          path: |
+            build/**
+            output/**
+          if-no-files-found: warn
+          retention-days: 7
+name: CI (Processing)
 on: [push, pull_request]
 
 jobs:
@@ -11,7 +108,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'   
+          java-version: '17'
 
       - name: Install Xvfb (headless GUI)
         run: sudo apt-get update && sudo apt-get install -y xvfb libxi6 libglu1-mesa
