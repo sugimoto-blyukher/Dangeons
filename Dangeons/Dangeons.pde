@@ -1,5 +1,3 @@
-// Processing 4.x (Javaモード) 用
-// シンプルな「部屋＋通路」ダンジョン、FOV、移動
 import java.util.*;
 
 final int COLS = 80;
